@@ -81,7 +81,7 @@ FROM `data-engineering-2026-484614.zoomcamp.yellow_tripdata_2024_native`;
 
 Question 6. Partition benefits
 
-Retrieve unique VendorID on the partitioned table within dropoff_date between 2024-03-01 and 2024-03-15, it processes **310.24 MB**
+Retrieve unique VendorID on the partitioned table within dropoff_date between 2024-03-01 and 2024-03-15, it processes **26.84 MB**
 ```
 SELECT DISTINCT
   VendorID
@@ -90,7 +90,7 @@ WHERE tpep_dropoff_datetime >= '2024-03-01'
   AND tpep_dropoff_datetime < '2024-03-16';
 ```
 
- Retrieve unique VendorID on the unpartitioned table within dropoff_date between 2024-03-01 and 2024-03-15, it processes **26.84 MB**
+ Retrieve unique VendorID on the unpartitioned table within dropoff_date between 2024-03-01 and 2024-03-15, it processes **310.24 MB**
 ```
 SELET DISTINCT
   VendorID
@@ -109,7 +109,7 @@ It is best practice in Big Query to always cluster your data: False
 
 Question 9. Understanding table scans
 
-This command shows processing 0 Byte because Bigquery is a culumnar storage. It will read the row numbers from metadata instead of scanning any columns in the table.
+This command shows processing 0 Byte because Bigquery is a columnar storage. It will read the row numbers from metadata instead of scanning any columns in the table.
 
 ```
 SELECT count(*) FROM `data-engineering-2026-484614.zoomcamp.yellow_tripdata_2024_native`;
