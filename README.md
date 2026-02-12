@@ -6,3 +6,9 @@ Please find the code in the folder /homework_01_docker_terraform in this repo. T
 
 ## Homework Week2: Workflow-Orchestration
 Please find the code in the folder /homework_02_orchestration in this repo. The Sql commands are documented in the README.md file in the same folder.
+
+## Homework Week3: Data_Warehouse
+Please find the code in the folder /homework_03_data_warehouse in this repo. The Sql commands are documented in the README.md file in the same folder.
+
+## Homework Week4: Analytics_Engineering
+Please find the code in the folder /homework_04_analytics_engineering in this repo. The Sql commands are documented in the README.md file in the same folder.
