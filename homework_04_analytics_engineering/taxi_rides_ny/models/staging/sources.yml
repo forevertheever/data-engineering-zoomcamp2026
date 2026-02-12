@@ -98,3 +98,21 @@ sources:
             description: Improvement surcharge
           - name: total_amount
             description: Total amount charged
+      - name: fhv_tripdata
+        description: Raw fhv trip records
+        loaded_at_field: pickup_datetime
+        columns:
+          - name: dispatching_base_num
+            description: The TLC Base License Number of the base that dispatched the trip.
+          - name: pickup_datetime
+            description: The date and time of the trip pick-up.
+          - name: dropOff_datetime
+            description: The date and time of the trip dropoff.
+          - name: PUlocationID
+            description: TLC Taxi Zone in which the trip began.
+          - name: DOlocationID
+            description: TLC Taxi Zone in which the trip ended.
+          - name: SR_Flag
+            description: Indicates if the trip was a part of a shared ride chain offered by a High Volume FHV company (e.g. Uber Pool, Lyft Line). For shared trips, the value is 1. For non-shared rides, this field is null.
+          - name: Affiliated_base_number
+            description: Base number of the base with which the vehicle is affiliated. This must be provided even if the affiliated base is the same as the dispatching base.
