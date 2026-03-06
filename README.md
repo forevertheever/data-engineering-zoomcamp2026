@@ -12,3 +12,9 @@ Please find the code in the folder /homework_03_data_warehouse in this repo. The
 
 ## Homework Week4: Analytics_Engineering
 Please find the code in the folder /homework_04_analytics_engineering in this repo. The Sql commands are documented in the README.md file in the same folder.
+
+## Homework Week5: Data_Platforms
+Please find the code in the folder /homework_05_data_platforms in this repo. The Sql commands are documented in the README.md file in the same folder.
+
+## Homework Week6: Batch_Processing
+Please find the code in the folder /homework_06_batch in this repo. The commands are documented in the Spark_in_Colab.ipynb file in the same folder.
