@@ -25,6 +25,8 @@ Q4. Question 4. Tumbling window - pickup location
 
 Q5. Session window - longest streak
 
+12
+
 Q6. Tumbling window - largest tip
 
 2025-10-16 18:00:00
