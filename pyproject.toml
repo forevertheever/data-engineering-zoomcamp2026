@@ -17,3 +17,8 @@ dependencies = [
 dev = [
     "pgcli>=4.4.0",
 ]
+
+[tool.uv.workspace]
+members = [
+    "homework_07_streaming",
+]
