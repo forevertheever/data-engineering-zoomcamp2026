@@ -71,7 +71,7 @@ def session_aggregation():
             PULocationID,
             COUNT(*) AS num_trips
         FROM TABLE(
-            TUMBLE(TABLE {source_table}, DESCRIPTOR(event_timestamp), INTERVAL '5' MINUTES)
+            SESSION(TABLE {source_table}, DESCRIPTOR(event_timestamp), INTERVAL '5' MINUTES)
         )
         GROUP BY window_start, window_end, PULocationID;
 
