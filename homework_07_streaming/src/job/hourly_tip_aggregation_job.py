@@ -29,14 +29,14 @@ def create_events_source_kafka(t_env):
     return table_name
 
 
-def create_events_aggregated_sink(t_env):
-    table_name = 'processed_events_aggregated'
+def create_hourly_tip_sink(t_env):
+    table_name = 'hourly_tip_results'
     sink_ddl = f"""
         CREATE TABLE {table_name} (
             window_start VARCHAR(30),
-            PULocationID INT,
-            num_trips BIGINT,
-            PRIMARY KEY (window_start, PULocationID) NOT ENFORCED
+            window_end VARCHAR(30),
+            total_tip_amount DOUBLE,
+            PRIMARY KEY (window_start, window_end) NOT ENFORCED
         ) WITH (
             'connector' = 'jdbc',
             'url' = 'jdbc:postgresql://postgres:5432/postgres',
@@ -50,7 +50,7 @@ def create_events_aggregated_sink(t_env):
     return table_name
 
 
-def log_aggregation():
+def hourly_tip_aggregation():
     env = StreamExecutionEnvironment.get_execution_environment()
     env.enable_checkpointing(10 * 1000)
     env.set_parallelism(1)
@@ -60,24 +60,24 @@ def log_aggregation():
 
     try:
         source_table = create_events_source_kafka(t_env)
-        aggregated_table = create_events_aggregated_sink(t_env)
+        hourly_tip_table = create_hourly_tip_sink(t_env)
 
         t_env.execute_sql(f"""
-        INSERT INTO {aggregated_table}
+        INSERT INTO {hourly_tip_table}
         SELECT
             DATE_FORMAT(window_start, 'yyyy-MM-dd HH:mm:ss') AS window_start,
-            PULocationID,
-            COUNT(*) AS num_trips
+            DATE_FORMAT(window_end, 'yyyy-MM-dd HH:mm:ss') AS window_end,
+            SUM(tip_amount) AS total_tip_amount
         FROM TABLE(
-            TUMBLE(TABLE {source_table}, DESCRIPTOR(event_timestamp), INTERVAL '5' MINUTES)
+            TUMBLE(TABLE {source_table}, DESCRIPTOR(event_timestamp), INTERVAL '1' HOUR)
         )
-        GROUP BY window_start, PULocationID;
+        GROUP BY window_start, window_end;
 
         """).wait()
 
     except Exception as e:
-        print("Writing records from Kafka to JDBC failed:", str(e))
+        print("Writing hourly tip records from Kafka to JDBC failed:", str(e))
 
 
 if __name__ == '__main__':
-    log_aggregation()
+    hourly_tip_aggregation()

@@ -21,10 +21,10 @@ producer = KafkaProducer(
 
 # producer.bootstrap_connected()
 
-url = 'https://d37ci6vzurychx.cloudfront.net/trip-data/green_tripdata_2025-10.parquet'
+# url = 'https://d37ci6vzurychx.cloudfront.net/trip-data/green_tripdata_2025-10.parquet'
 # url = 'https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/green_tripdata_2019-10.parquet'
 columns = ['PULocationID', 'DOLocationID', 'trip_distance', 'tip_amount', 'total_amount', 'lpep_pickup_datetime', 'lpep_dropoff_datetime', 'passenger_count']
-df = pd.read_parquet(url, columns=columns)
+df = pd.read_parquet("/workspaces/data-engineering-zoomcamp2026/homework_07_streaming/src/green_tripdata_2025-10.parquet", columns=columns)
 # print(df.head(10))
 # df['lpep_pickup_datetime'] = df['lpep_pickup_datetime'].astype(str)
 # df['lpep_dropoff_datetime'] = df['lpep_dropoff_datetime'].astype(str)

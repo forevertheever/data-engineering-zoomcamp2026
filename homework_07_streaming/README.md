@@ -18,3 +18,13 @@ took 10 seconds
 Q3. Consumer - trip distance
 
 8506
+
+Q4. Question 4. Tumbling window - pickup location
+
+74
+
+Q5. Session window - longest streak
+
+Q6. Tumbling window - largest tip
+
+2025-10-16 18:00:00

@@ -29,14 +29,15 @@ def create_events_source_kafka(t_env):
     return table_name
 
 
-def create_events_aggregated_sink(t_env):
-    table_name = 'processed_events_aggregated'
+def create_session_sink(t_env):
+    table_name = "session_results"
     sink_ddl = f"""
         CREATE TABLE {table_name} (
-            window_start VARCHAR(30),
+            window_start TIMESTAMP(3),
+            window_end TIMESTAMP(3),
             PULocationID INT,
             num_trips BIGINT,
-            PRIMARY KEY (window_start, PULocationID) NOT ENFORCED
+            PRIMARY KEY (window_start, window_end, PULocationID) NOT ENFORCED
         ) WITH (
             'connector' = 'jdbc',
             'url' = 'jdbc:postgresql://postgres:5432/postgres',
@@ -50,7 +51,7 @@ def create_events_aggregated_sink(t_env):
     return table_name
 
 
-def log_aggregation():
+def session_aggregation():
     env = StreamExecutionEnvironment.get_execution_environment()
     env.enable_checkpointing(10 * 1000)
     env.set_parallelism(1)
@@ -60,24 +61,25 @@ def log_aggregation():
 
     try:
         source_table = create_events_source_kafka(t_env)
-        aggregated_table = create_events_aggregated_sink(t_env)
+        session_table = create_session_sink(t_env)
 
         t_env.execute_sql(f"""
-        INSERT INTO {aggregated_table}
+        INSERT INTO {session_table}
         SELECT
-            DATE_FORMAT(window_start, 'yyyy-MM-dd HH:mm:ss') AS window_start,
+            window_start,
+            window_end,
             PULocationID,
             COUNT(*) AS num_trips
         FROM TABLE(
             TUMBLE(TABLE {source_table}, DESCRIPTOR(event_timestamp), INTERVAL '5' MINUTES)
         )
-        GROUP BY window_start, PULocationID;
+        GROUP BY window_start, window_end, PULocationID;
 
         """).wait()
 
     except Exception as e:
-        print("Writing records from Kafka to JDBC failed:", str(e))
+        print("Writing session records from Kafka to JDBC failed:", str(e))
 
 
 if __name__ == '__main__':
-    log_aggregation()
+    session_aggregation()
