@@ -18,3 +18,6 @@ Please find the code in the folder /homework_05_data_platforms in this repo. The
 
 ## Homework Week6: Batch_Processing
 Please find the code in the folder /homework_06_batch in this repo. The commands are documented in the Spark_in_Colab.ipynb file in the same folder.
+
+## Homework Week7: Streaming
+Please find the code in the folder /homework_06_streaming in this repo. The homework answers are documented in the README.md file in the same folder.
